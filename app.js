@@ -18,9 +18,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const userRouter = require("./router/userRouter");
+const homePageRouter = require("./router/homePageRouter");
 
 app.use("/", userRouter);
 app.use("/user", userRouter);
+app.use("/homePage", homePageRouter);
 
 sequelize
   .sync()

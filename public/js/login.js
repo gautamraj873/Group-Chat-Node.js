@@ -24,7 +24,7 @@ async function login() {
     const response = await axios.post("http://localhost:3000/user/login", loginDetails);
     alert(response.data.message);
     localStorage.setItem("token", response.data.token);
-    window.location.href = "/";
+    window.location.href = "/homePage";
   } catch (error) {
     if (error.response) {
       const errorMessage = error.response.data.message;
