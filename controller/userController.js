@@ -5,6 +5,10 @@ const jwt = require("jsonwebtoken");
 const sequelize = require("../util/database");
 const { Op } = require("sequelize");
 
+function generateAccessToken(id, email) {
+  return jwt.sign({ userId: id, email: email }, process.env.TOKEN);
+}
+
 exports.getLoginPage = async (req, res, next) => {
   try {
     res.sendFile(path.join(__dirname, "../", "public", "views", "login.html"));
@@ -42,3 +46,40 @@ exports.postUserSignUp = async (req, res, next) => {
     console.log(error);
   }
 };
+
+exports.postUserLogin = async (req, res, next) => {
+  try {
+    const email = req.body.loginEmail;
+    const password = req.body.loginPassword;
+
+    const user = await User.findOne({ where: { email: email } });
+
+    if (user) {
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (err) {
+          return res.status(500).json({ success: false, message: "Something went wrong!" });
+        }
+        if (result === true) {
+          return res.status(200).json({
+            success: true,
+            message: "Login successful!",
+            token: generateAccessToken(user.id, user.email),
+          });
+        } else {
+          return res.status(401).json({
+            success: false,
+            message: "Incorrect password!",
+          });
+        }
+      });
+    } else {
+      return res.status(404).json({
+        success: false,
+        message: "User doesn't exist!",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+

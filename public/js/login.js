@@ -13,3 +13,27 @@ signUp.addEventListener("click", () => {
 signIn.addEventListener("click", () => {
   container.classList.remove("right-panel-active");
 });
+
+async function login() {
+  const loginDetails = {
+    loginEmail: loginEmail.value,
+    loginPassword: loginPassword.value,
+  };
+
+  try {
+    const response = await axios.post("http://localhost:3000/user/login", loginDetails);
+    alert(response.data.message);
+    localStorage.setItem("token", response.data.token);
+    window.location.href = "/";
+  } catch (error) {
+    if (error.response) {
+      const errorMessage = error.response.data.message;
+      alert(errorMessage);
+    } else {
+      alert("An error occurred. Please try again later.");
+    }
+  }
+}
+
+
+loginBtn.addEventListener("click", login);
