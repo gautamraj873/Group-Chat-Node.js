@@ -19,10 +19,18 @@ app.use(bodyParser.json());
 
 const userRouter = require("./router/userRouter");
 const homePageRouter = require("./router/homePageRouter");
+const chatRouter = require("./router/chatRouter.js");
+
+const User = require("./models/userModel");
+const Chat = require("./models/chatModel");
+
+User.hasMany(Chat, { onDelete: "CASCADE", hooks: true });
+Chat.belongsTo(User);
 
 app.use("/", userRouter);
 app.use("/user", userRouter);
 app.use("/homePage", homePageRouter);
+app.use("/chat", chatRouter);
 
 sequelize
   .sync()
