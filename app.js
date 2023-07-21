@@ -5,9 +5,6 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const fs = require("fs");
 
-const cors = require("cors");
-app.use(cors({ origin: "*" }));
-
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -17,32 +14,33 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//Router
 const userRouter = require("./router/userRouter");
 const homePageRouter = require("./router/homePageRouter");
-const chatRouter = require("./router/chatRouter.js");
+const chatRouter = require("./router/chatRouter");
 const groupRouter = require("./router/groupRouter");
 
+//Models
 const User = require("./models/userModel");
 const Chat = require("./models/chatModel");
 const Group = require("./models/groupModel");
 const UserGroup = require("./models/userGroup");
 
-// User associations
+//Relationships between Tables
 User.hasMany(Chat, { onDelete: "CASCADE", hooks: true });
-User.hasMany(UserGroup);
 
-// Chat associations
 Chat.belongsTo(User);
 Chat.belongsTo(Group);
-Group.hasMany(Chat);
 
-// Group associations
+User.hasMany(UserGroup);
+
+Group.hasMany(Chat);
 Group.hasMany(UserGroup);
+
+UserGroup.belongsTo(User);
 UserGroup.belongsTo(Group);
 
-// UserGroup associations
-UserGroup.belongsTo(User);
-
+//Middleware
 app.use("/", userRouter);
 app.use("/user", userRouter);
 app.use("/homePage", homePageRouter);
