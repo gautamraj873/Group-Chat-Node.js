@@ -21,7 +21,7 @@ async function createGroup() {
 
     const token = localStorage.getItem("token");
     const res = await axios.post(
-      "http://localhost:3000/group/createGroup",
+      "http://13.51.121.84:3000/group/createGroup",
       {
         groupName: groupName,
         members: members,
@@ -38,7 +38,7 @@ async function createGroup() {
 async function getGroups() {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get("http://localhost:3000/group/getGroups", {
+    const res = await axios.get("http://13.51.121.84:3000/group/getGroups", {
       headers: { Authorization: token },
     });
     groups.innerHTML = "";
@@ -81,7 +81,7 @@ async function addToGroup() {
     }
     const token = localStorage.getItem("token");
     const res = await axios.post(
-      "http://localhost:3000/group/addToGroup",
+      "http://13.51.121.84:3000/group/addToGroup",
       {
         groupName: groupName,
         members: members,
@@ -111,7 +111,7 @@ async function deleteFromGroup() {
     }
     const token = localStorage.getItem("token");
     const res = await axios.post(
-      "http://localhost:3000/group/deleteFromGroup",
+      "http://13.51.121.84:3000/group/deleteFromGroup",
       {
         groupName: groupName,
         members: members,
@@ -142,7 +142,7 @@ async function groupMembers() {
     }
     const token = localStorage.getItem("token");
     const res = await axios.get(
-      `http://localhost:3000/group/groupMembers/${groupName}`,
+      `http://13.51.121.84:3000/group/groupMembers/${groupName}`,
       { headers: { Authorization: token } }
     );
     res.data.users.forEach((user) => {
@@ -165,7 +165,7 @@ async function groupMembers() {
 
 function logout() {
   localStorage.clear();
-  window.location.href = "http://localhost:3000";
+  window.location.href = "http://13.51.121.84:3000";
 }
 
 groupMembersBtn.addEventListener("click", groupMembers);
