@@ -7,7 +7,7 @@ const { Op } = require("sequelize");
 
 const io = require("socket.io")(5000, {
   cors: {
-    origin: "http://16.171.85.224:3000",
+    origin: "http://13.53.229.230:3000",
     methods: ["GET", "POST"],
     allowedHeaders: ["my-custom-header"],
     credentials: true,

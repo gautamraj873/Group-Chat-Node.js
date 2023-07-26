@@ -44,7 +44,7 @@ async function messageSend() {
       return alert("Select group to send the message");
     }
     const res = await axios.post(
-      `http://16.171.85.224:3000/chat/sendMessage/`,
+      `http://13.53.229.230:3000/chat/sendMessage/`,
       {
         message: message,
         groupName: groupName,
